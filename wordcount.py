@@ -32,21 +32,37 @@ import sys
 
 def create_word_dict(filename):
     """Returns a word/count dict for the given file."""
-    # Your code here
-    return
+    with open(filename) as f:
+        content = f.read()
+    content = content.lower().split()
+    content.sort()
+    count_dict = {}
+    for word in content:
+        if word in count_dict:
+            x = count_dict.pop(word)
+            count_dict.update({word: x+1})
+        else:
+            count_dict.update({word: 1})
+    return count_dict
 
 
 def print_words(filename):
     """Prints one per line '<word> : <count>', sorted
     by word for the given file.
     """
-    # Your code here
+    wordcounts = create_word_dict(filename)
+    for word in wordcounts.items():
+        print(word[0] + ' : ' + str(word[1]))
     return
 
 
 def print_top(filename):
     """Prints the top count listing for the given file."""
-    # Your code here
+    print('Top 20 most frequent words in ' + filename)
+    top20 = create_word_dict(filename)
+    top20 = sorted(top20.items(), key=lambda x: x[1], reverse=True)
+    for word in range(20):
+        print(top20[word][0] + ' : ' + str(top20[word][1]))
     return
 
 
